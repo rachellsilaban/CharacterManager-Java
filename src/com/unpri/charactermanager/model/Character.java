@@ -1,12 +1,6 @@
 package com.unpri.charactermanager.model;
 
-/**
- * Merepresentasikan satu karakter dalam aplikasi Character Manager.
- * Menerapkan prinsip Encapsulation: semua atribut private,
- * akses hanya melalui getter/setter.
- */
 public class Character {
-
     // ===== ATRIBUT (private — tidak bisa diakses langsung dari luar class) =====
     private int id;
     private String name;
@@ -14,7 +8,7 @@ public class Character {
     private int level;
     private int hitPoints;
     private int attackPower;
-    private int mana;
+    private int mana; // atribut baru untuk Mini-Challenge
 
     // ===== CONSTRUCTOR 1: untuk membuat karakter BARU =====
     // Dipakai saat user membuat karakter dari form (belum punya id dari database)
@@ -28,17 +22,13 @@ public class Character {
 
     // ===== CONSTRUCTOR 2: untuk MEMUAT karakter dari database =====
     // Dipakai saat data sudah ada (id dan statistik sudah final dari DB)
-    public Character(int id, String name, CharacterType type, int level, int hitPoints, int attackPower, int mana) {
+    public Character(int id, String name, CharacterType type, int level, int hitPoints, int attackPower) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.level = level;
         this.hitPoints = hitPoints;
         this.attackPower = attackPower;
-        if (mana < 0) {
-            throw new IllegalArgumentException("Mana tidak boleh negatif");
-        }
-        this.mana = mana;
     }
 
     // ===== HELPER PRIVATE: hanya dipakai internal class ini =====
@@ -57,6 +47,7 @@ public class Character {
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
     public int getAttackPower() { return attackPower; }
+    public int getMana() {return mana;}
 
     // ===== SETTER: cara AMAN mengubah atribut, dengan VALIDASI =====
     public void setId(int id) {
@@ -72,22 +63,6 @@ public class Character {
         this.attackPower = calculateBaseAttack();
     }
 
-    // ===== toString(): representasi teks object, berguna untuk debugging =====
-    @Override
-    public String toString() {
-        return "Character{id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", level=" + level +
-                ", hp=" + hitPoints +
-                ", atk=" + attackPower +
-                ", mana=" + mana + '}';
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
     public void setMana(int mana) {
         if (mana < 0) {
             throw new IllegalArgumentException("Mana tidak boleh negatif");
@@ -99,4 +74,16 @@ public class Character {
         return hitPoints > 0;
     }
 
-}   // kurung kurawal penutup CLASS Character — pastikan jumlah buka/tutup seimbang!
+    // ===== toString(): representasi teks object, berguna untuk debugging =====
+    @Override
+    public String toString() {
+        return "Character{id=" + id +
+               ", name='" + name + '\'' +
+               ", type=" + type +
+               ", level=" + level +
+               ", hp=" + hitPoints +
+               ", atk=" + attackPower + 
+               ", mana=" + mana + '}';
+    }
+
+} 
