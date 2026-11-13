@@ -1,68 +1,45 @@
-## TP8 — MainWindow, Data Dinamis & Analisis MVC
+# TP10 — Character Manager Sprint #4
+## Theming, Properti Komponen & Analisis MVC
 
-### 1. Screenshot Output
+### 1. Mini-Challenge
+Pada TP10, aplikasi Character Manager dikembangkan dengan menambahkan fitur penanda karakter berdasarkan level. Karakter yang memiliki level minimal 5 akan menampilkan teks berwarna emas dan menggunakan font tebal (*bold*). Batas level disimpan dalam konstanta `GOLD_LEVEL_THRESHOLD` agar nilai batas dapat diubah dengan mudah tanpa harus mengubah banyak bagian kode.
 
-#### Sebelum Perubahan Data
+### 2. Penambahan Karakter
+Aplikasi memiliki tujuh karakter dengan variasi role dan level sebagai berikut:
+| Nama      | Role    | Level |
+| --------- | ------- | ----- |
+| Arjuna    | WARRIOR |   5   |
+| Gatotkaca | WARRIOR |   7   |
+| Merlin    | MAGE    |   3   |
+| Leonidas  | MAGE    |   8   |
+| Morgana   | MAGE    |   1   |
+| Athena    | ARCHER  |   4   |
+| Freya     | ARCHER  |   6   |
+Penambahan karakter dengan role dan level yang berbeda digunakan untuk menguji tampilan kartu berdasarkan role serta fitur Mini-Challenge.
 
-Menampilkan tiga karakter awal, yaitu Arjuna, Merlin, dan Athena, beserta statistik rata-rata level.
+### 3. Penggunaan AppTheme
+Seluruh pengaturan warna, font, dan border disimpan dalam class `AppTheme` yang berada di package `view`. Warna disimpan di `AppTheme` agar pengaturan tampilan aplikasi berada pada satu tempat sehingga lebih mudah dikelola dan diubah. Class `Character` hanya bertanggung jawab menyimpan data dan informasi karakter, seperti nama, role, level, HP, dan attack power. Dengan pemisahan ini, Model tidak bergantung pada komponen tampilan sehingga struktur program menjadi lebih rapi dan sesuai dengan konsep MVC.
 
-![Output sebelum perubahan](screenshots/tp08-sebelum.png)
+### 4. Properti Tambahan
+**a. Tooltip Detail Karakter**
+Properti `setToolTipText()` digunakan untuk menampilkan informasi nama, role, level, HP, dan attack power ketika kursor diarahkan ke kartu karakter.
+Alasan: Fitur ini membantu pengguna mengetahui informasi karakter secara lebih lengkap tanpa memenuhi tampilan utama aplikasi.
+**b. Status Nonaktif Karakter Level 1**
+Properti `setEnabled(false)` digunakan untuk membuat karakter dengan level 1 tampil dalam kondisi nonaktif.
+Alasan: Fitur ini memberikan pembeda visual antara karakter level 1 dengan karakter lainnya dan membantu pengguna mengenali status karakter.
 
-#### Sesudah Perubahan Data
+### 5. Screenshot Hasil Aplikasi
+**Sebelum — MainWindow v0.3**
+![Screenshot sebelum TP10](screenshots/tp08-sesudah.png)
+**Sesudah — MainWindow v0.4**
+![Screenshot sesudah TP10](screenshots/tp10.png)
 
-Menampilkan lima karakter setelah penambahan Leonidas dan Freya. Statistik rata-rata level ikut berubah menjadi 5.2.
+### 6. Analisis Properti dan MVC
+Analisis mengenai JavaBeans, properti komponen Swing, pengaturan ukuran komponen, penggunaan logical font, serta pemisahan tanggung jawab Model dan View dapat dilihat melalui Google Docs berikut:
+**Dokumen Analisis:** [Buka Dokumen Analisis](https://1drv.ms/w/c/8cf06abcf94f4402/IQBs3m9chqemTJ9iU-kK-c5CAUR8vI5Whxmwp9jxVAjOixU?e=k5OIdn)
 
-![Output sesudah perubahan](screenshots/tp08-sesudah.png)
-
-### 2. Aliran Data dan Penerapan MVC
-
-Pada aplikasi Character Manager, `Main.java` berperan sebagai bagian yang mengatur jalannya program. Pertama, Main membuat objek `CharacterManager` dan menambahkan data karakter ke dalamnya. Selanjutnya, `CharacterManager` sebagai bagian dari Model bertanggung jawab mengelola data karakter, menyediakan daftar karakter melalui method `getAllCharacters()`, serta menghitung rata-rata level menggunakan method `getAverageLevel()`.
-
-Setelah data dan statistik diperoleh, Main mengirimkannya ke `MainWindow` sebagai View. `MainWindow` bertugas menampilkan daftar karakter secara dinamis menggunakan perulangan `for-each` dan menampilkan nilai rata-rata level melalui JLabel. Dengan pemisahan tersebut, pengelolaan data berada di Model, sedangkan tampilan antarmuka berada di View. Selain itu, `SwingUtilities.invokeLater()` digunakan agar pembuatan dan pengoperasian GUI dijalankan melalui Event Dispatch Thread (EDT).
-
-### 3. Karakter Tambahan
-
-Pada TP8, dua karakter baru ditambahkan sehingga jumlah keseluruhan karakter menjadi lima.
-
-| Karakter |  Tipe  | Level |                                  Alasan Pemilihan                                                |
-| -------- | ------ | ----- | -------------------------------------------------------------------------------------------------|
-| Leonidas | MAGE   |   8   | Memberikan variasi level yang lebih tinggi sehingga dapat menunjukkan perubahan nilai rata-rata. |
-| Freya    | ARCHER |   6   | Menambah variasi tipe karakter dan memberikan nilai level yang berbeda dari karakter lainnya.    |
-
-Karakter Arjuna, Merlin, dan Athena tetap dipertahankan sebagai data awal. Penambahan Leonidas dan Freya dilakukan untuk menguji kemampuan aplikasi dalam menampilkan data secara dinamis serta menghitung ulang statistik berdasarkan jumlah dan level karakter yang tersedia.
-
-**Perhitungan rata-rata level:**
-
-(5 + 3 + 4 + 8 + 6) / 5 = 5.2
-
-Dengan demikian, aplikasi menampilkan statistik **Rata-rata Level: 5.2**.
-
-### 4. Struktur Folder Project
-
-```text
-CharacterManager-Java/
-├── src/
-│   ├── Main.java
-│   └── com/
-│       └── unpri/
-│           └── charactermanager/
-│               ├── model/
-│               │   ├── Character.java
-│               │   ├── CharacterManager.java
-│               │   └── CharacterType.java
-│               └── view/
-│                   └── MainWindow.java
-├── screenshots/
-│   ├── tp03.png
-│   ├── tp05.png
-│   ├── tp08-sebelum.png
-│   └── tp08-sesudah.png
-└── README.md
-```
-
-### 5. Identitas Mahasiswa
-
-- **Nama Lengkap:** Rachel Clarita Oktaviana Br Silaban
-- **NIM:** 253303621203
-- **Kelas:** Sistem Informasi 3 Pagi A
-- **Dokumen Analisis GUI dan MVC:** [Buka Dokumen Analisis](https://1drv.ms/w/c/8cf06abcf94f4402/IQC-q9Mp5yK9Tqinx680e9znAUFLsQiJQNq4irlAKeo1qj4?e=aAcQvi)
+### 7. Identitas Mahasiswa
+- Nama: Rachel Clarita Oktaviana Br Silaban
+- NIM: 253303621203
+- Kelas: Sistem Informasi 3 Pagi A
+- Tugas: TP10 — Character Manager Sprint #4
