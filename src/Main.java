@@ -58,5 +58,25 @@ public class Main {
 
         System.out.println("Total di manager asli: " + manager.getTotalCharacters());
         System.out.println("Total di salinan list : " + salinanList.size());
+
+
+        // ===== MINI CHALLENGE: Analytics =====
+        System.out.println("\n--- Mini Challenge: Analytics ---");
+
+        // 1. Menghitung rata-rata level karakter
+        System.out.println("Rata-rata level karakter: " + manager.getAverageLevel());
+        // 2. Mencari karakter berdasarkan tipe WARRIOR
+        System.out.println("\nKarakter dengan tipe WARRIOR:");
+        for (Character c : manager.findByType(CharacterType.WARRIOR)) {
+            System.out.println(c);
+        }
+        // 3. Mencari karakter berdasarkan tipe MAGE
+        System.out.println("\nKarakter dengan tipe MAGE:");
+        for (Character c : manager.findByType(CharacterType.MAGE)) {
+            System.out.println(c);
+        }
+
+        CharacterManager managerKosong = new CharacterManager();
+        System.out.println("Rata-rata list kosong: " + managerKosong.getAverageLevel());
     }  
 }
