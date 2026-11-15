@@ -1,45 +1,78 @@
-# TP10 — Character Manager Sprint #4
-## Theming, Properti Komponen & Analisis MVC
+## TP12 — Layout Manager dan Responsive GUI
 
-### 1. Mini-Challenge
-Pada TP10, aplikasi Character Manager dikembangkan dengan menambahkan fitur penanda karakter berdasarkan level. Karakter yang memiliki level minimal 5 akan menampilkan teks berwarna emas dan menggunakan font tebal (*bold*). Batas level disimpan dalam konstanta `GOLD_LEVEL_THRESHOLD` agar nilai batas dapat diubah dengan mudah tanpa harus mengubah banyak bagian kode.
+### 1. Wireframe Aplikasi
 
-### 2. Penambahan Karakter
-Aplikasi memiliki tujuh karakter dengan variasi role dan level sebagai berikut:
-| Nama      | Role    | Level |
-| --------- | ------- | ----- |
-| Arjuna    | WARRIOR |   5   |
-| Gatotkaca | WARRIOR |   7   |
-| Merlin    | MAGE    |   3   |
-| Leonidas  | MAGE    |   8   |
-| Morgana   | MAGE    |   1   |
-| Athena    | ARCHER  |   4   |
-| Freya     | ARCHER  |   6   |
-Penambahan karakter dengan role dan level yang berbeda digunakan untuk menguji tampilan kartu berdasarkan role serta fitur Mini-Challenge.
+Berikut gambaran struktur tampilan aplikasi Character Manager v0.5:
 
-### 3. Penggunaan AppTheme
-Seluruh pengaturan warna, font, dan border disimpan dalam class `AppTheme` yang berada di package `view`. Warna disimpan di `AppTheme` agar pengaturan tampilan aplikasi berada pada satu tempat sehingga lebih mudah dikelola dan diubah. Class `Character` hanya bertanggung jawab menyimpan data dan informasi karakter, seperti nama, role, level, HP, dan attack power. Dengan pemisahan ini, Model tidak bergantung pada komponen tampilan sehingga struktur program menjadi lebih rapi dan sesuai dengan konsep MVC.
+```text
++------------------------------------------------------+
+|                    HEADER (NORTH)                    |
+|  Character Manager                       8 karakter  |
++------------------------------------------------------+
+|                  PANEL STATISTIK                     |
+|  WARRIOR: 3       | MAGE: 3                          |
+|  ARCHER: 2        | HEALER: 0                        |
++-------------------------------------------+----------+
+|                                           |          |
+|             DAFTAR KARAKTER               | LEGENDA  |
+|                 (CENTER)                  |  (EAST)  |
+|                                           |          |
+|  Arjuna                                   | WARRIOR  |
+|  Merlin                                   | MAGE     |
+|  Athena                                   | ARCHER   |
+|  Gatotkaca                                | HEALER   |
+|  Morgana                                  |          |
+|  Artemis                                  |          |
+|  Bima                                     |          |
+|  Circe                                    |          |
+|                                           |          |
++-------------------------------------------+----------+
+|                    STATUS (SOUTH)                    |
+|  Total: 8 karakter | Siap                       v0.5 |
++------------------------------------------------------+
+```
 
-### 4. Properti Tambahan
-**a. Tooltip Detail Karakter**
-Properti `setToolTipText()` digunakan untuk menampilkan informasi nama, role, level, HP, dan attack power ketika kursor diarahkan ke kartu karakter.
-Alasan: Fitur ini membantu pengguna mengetahui informasi karakter secara lebih lengkap tanpa memenuhi tampilan utama aplikasi.
-**b. Status Nonaktif Karakter Level 1**
-Properti `setEnabled(false)` digunakan untuk membuat karakter dengan level 1 tampil dalam kondisi nonaktif.
-Alasan: Fitur ini memberikan pembeda visual antara karakter level 1 dengan karakter lainnya dan membantu pengguna mengenali status karakter.
+### 2. Screenshot Implementasi
 
-### 5. Screenshot Hasil Aplikasi
-**Sebelum — MainWindow v0.3**
-![Screenshot sebelum TP10](screenshots/tp08-sesudah.png)
-**Sesudah — MainWindow v0.4**
-![Screenshot sesudah TP10](screenshots/tp10.png)
+**A. Tampilan Ukuran Awal**
 
-### 6. Analisis Properti dan MVC
-Analisis mengenai JavaBeans, properti komponen Swing, pengaturan ukuran komponen, penggunaan logical font, serta pemisahan tanggung jawab Model dan View dapat dilihat melalui Google Docs berikut:
-**Dokumen Analisis:** [Buka Dokumen Analisis](https://1drv.ms/w/c/8cf06abcf94f4402/IQBs3m9chqemTJ9iU-kK-c5CAUR8vI5Whxmwp9jxVAjOixU?e=k5OIdn)
+![Tampilan ukuran awal](screenshots/tp12-initial.png)
+
+**B. Tampilan Jendela Dikecilkan**
+
+![Tampilan jendela dikecilkan](screenshots/tp12-shrunk.png)
+
+**C. Tampilan Jendela Dilebarkan**
+
+![Tampilan jendela dilebarkan](screenshots/tp12-widened.png)
+
+### 3. Pengamatan Perubahan Ukuran Jendela
+
+| Kondisi | Prediksi | Hasil Pengamatan |
+|---|---|---|
+| Ukuran awal | Semua komponen tampil sesuai susunan layout | Komponen tampil dengan rapi |
+| Jendela dilebarkan | Area daftar karakter menyesuaikan ruang yang tersedia | Daftar karakter melebar dan komponen tetap tersusun |
+| Jendela dikecilkan | Area daftar karakter menjadi terbatas dan scrollbar digunakan | Scrollbar muncul sehingga daftar karakter tetap dapat diakses |
+
+### 4. Struktur Panel Bersarang
+
+Aplikasi menggunakan `BorderLayout` sebagai layout utama pada `MainWindow`. Bagian NORTH berisi panel pembungkus yang menggunakan `BoxLayout` untuk menyusun header dan panel statistik secara vertikal. Bagian CENTER berisi `JScrollPane` yang menampung panel daftar karakter, sedangkan bagian EAST berisi panel legenda dengan `BoxLayout` Y_AXIS. Bagian SOUTH digunakan sebagai status bar yang menampilkan jumlah karakter di sebelah kiri dan versi aplikasi di sebelah kanan.
+
+### 5. Alasan Pemilihan Layout Panel Tambahan
+
+Panel statistik menggunakan `GridLayout(2, 2)` karena terdapat empat jenis role karakter, yaitu WARRIOR, MAGE, ARCHER, dan HEALER. Dengan GridLayout, setiap informasi statistik memiliki ukuran sel yang sama sehingga tampil lebih teratur dan mudah dibaca.
+
+Layout yang tidak dipilih adalah `FlowLayout`. Meskipun FlowLayout dapat menyusun komponen secara horizontal, susunannya dapat berpindah baris mengikuti lebar ruang yang tersedia. Oleh karena itu, GridLayout lebih sesuai untuk menampilkan empat informasi statistik dalam susunan dua baris dan dua kolom.
+
+### 6. Analisis Layout dan MVC
+
+Dokumen analisis lengkap mengenai Layout Manager dan Model-View-Controller (MVC) dapat dibaca melalui Google Docs berikut:
+
+**Link Dokumen Analisis:**
+[Analisis Layout Manager dan MVC — Character Manager v0.5](https://1drv.ms/w/c/8cf06abcf94f4402/IQDfB94ljsVwTLhj_W_wiMKAAWwX6xQFQughzRvGg4z2CQU?e=0dkfxN)
 
 ### 7. Identitas Mahasiswa
 - Nama: Rachel Clarita Oktaviana Br Silaban
 - NIM: 253303621203
 - Kelas: Sistem Informasi 3 Pagi A
-- Tugas: TP10 — Character Manager Sprint #4
+- Tugas: TP12 — Layout Manager dan Responsive GUI
